@@ -1,0 +1,115 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>rtClock</title>
+  </head>
+  <body onload="initClock()">
+    <div class="rtClock">
+      <div class="datetime">
+        <div class="dt">
+          <span id="year">YEAR</span>
+          <span id="month">MONTH</span>
+          <span id="daynum">DAYNUM</span>
+        </div>
+        <!-- Time is displayed here -->
+        <div class="tm">
+          <span id="hour">HOUR</span>
+          <span>:</span>
+          <span id="minutes">MINUTES</span>
+          <span>:</span>
+          <span id="seconds">SECONDS</span>
+          <span id="period">PM</span>
+        </div>
+      </div>
+      <div class="dnm">
+        <span id="dayname">DAYNAME</span>
+      </div>
+    </div>
+    <script type="text/javascript">
+      function updateClock() {
+        var now = new Date();
+
+        var day_name = now.getDay(),
+          mo = now.getMonth(),
+          yyyy = now.getFullYear(),
+          day_num = now.getDate(),
+          hh = now.getHours(),
+          mm = now.getMinutes(),
+          sec = now.getSeconds(),
+          amPm = "AM";
+
+        // logical statements
+        if (hh == 0) {
+          hh = 12;
+        }
+
+        if (hh > 12) {
+          hh = hh - 12;
+          amPm = "PM";
+        }
+
+        Number.prototype.pad = function (digits) {
+          for (var n = this.toString(); n.length < digits; n = 0 + n);
+          return n;
+        };
+
+        var months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        var week = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+
+        var ids = [
+          "dayname",
+          "month",
+          "daynum",
+          "year",
+          "hour",
+          "minutes",
+          "seconds",
+          "period",
+        ];
+
+        var values = [
+          week[day_name],
+          months[mo],
+          day_num.pad(2),
+          yyyy,
+          hh.pad(2),
+          mm.pad(2),
+          sec.pad(2),
+          amPm,
+        ];
+
+        for (var i = 0; i < ids.length; i++)
+          document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      }
+      function initClock() {
+        updateClock();
+        window.setInterval("updateClock()", 1);
+      }
+    </script>
+  </body>
+</html>
